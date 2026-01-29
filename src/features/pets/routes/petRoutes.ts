@@ -90,3 +90,18 @@ petRoutes.put(
  *         description: Pet details
  */
 petRoutes.get("/:id", asyncHandler((req, res) => controller.getById(req, res)));
+
+
+/**
+ * @openapi
+ * /pets:
+ *   get:
+ *     tags: [Pets]
+ *     summary: Get all pets
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Pets list
+ */
+petRoutes.get("/", authenticate, asyncHandler((req, res) => controller.getAll(req, res)));

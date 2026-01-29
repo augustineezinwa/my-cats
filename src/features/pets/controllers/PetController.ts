@@ -18,13 +18,11 @@ export class PetController {
       ownerId: req.user.id,
     });
     return res.status(201).json({
-      pet: {
-        id: pet.id.toString(),
-        name: pet.name,
-        type: pet.type,
-        age: pet.age,
-        ownerId: pet.ownerId.toString(),
-      },
+      id: pet.id,
+      name: pet.name,
+      type: pet.type,
+      age: pet.age,
+      ownerId: pet.ownerId,
     });
   }
 
@@ -39,27 +37,29 @@ export class PetController {
       ownerId: req.user.id,
     });
     return res.json({
-      pet: {
-        id: pet.id.toString(),
-        name: pet.name,
-        type: pet.type,
-        age: pet.age,
-        ownerId: pet.ownerId.toString(),
-      },
+      id: pet.id,
+      name: pet.name,
+      type: pet.type,
+      age: pet.age,
+      ownerId: pet.ownerId,
     });
   }
 
   async getById(req: Request, res: Response) {
     const petService = this.getService();
-    const pet = await petService.getPetById(req.params.id);
+    const pet = await petService.getPetById(String(req.params.id));
     return res.json({
-      pet: {
-        id: pet.id.toString(),
-        name: pet.name,
-        type: pet.type,
-        age: pet.age,
-        ownerId: pet.ownerId.toString(),
-      },
+      id: pet.id,
+      name: pet.name,
+      type: pet.type,
+      age: pet.age,
+      ownerId: pet.ownerId,
     });
+  }
+
+  async getAll(req: Request, res: Response) {
+    const petService = this.getService();
+    const pets = await petService.getAllPets(req.user!.id);
+    return res.json(pets);
   }
 }

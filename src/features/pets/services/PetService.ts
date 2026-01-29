@@ -38,7 +38,7 @@ export class PetService {
       throw new HttpError(400, "Invalid pet id");
     }
     const repo = this.getRepo();
-    const pet = await repo.findOneBy({ id: new ObjectId(input.id) });
+    const pet = await repo.findOneById(new ObjectId(input.id));
     if (!pet) {
       throw new HttpError(404, "Pet not found");
     }
@@ -62,10 +62,20 @@ export class PetService {
       throw new HttpError(400, "Invalid pet id");
     }
     const repo = this.getRepo();
-    const pet = await repo.findOneBy({ id: new ObjectId(id) });
+    const pet = await repo.findOneBy(new ObjectId(id));
+
     if (!pet) {
       throw new HttpError(404, "Pet not found");
     }
     return pet;
+  }
+
+  async getAllPets(ownerId: string) {
+    const repo = this.getRepo();
+    return repo.find({
+      where: {
+        ownerId: new ObjectId(ownerId),
+      },
+    })
   }
 }
