@@ -7,27 +7,31 @@ import { HttpError } from "../../../common/errors/HttpError";
 import { User } from "../models/User";
 
 export class UserService {
-  private repo = getDataSource().getMongoRepository(User);
+  private getRepo() {
+    return getDataSource().getMongoRepository(User);
+  }
 
   async createUser(email: string, password: string, name?: string) {
-    const existing = await this.repo.findOneBy({ email });
+    const repo = this.getRepo();
+    const existing = await repo.findOneBy({ email });
     if (existing) {
       throw new HttpError(409, "Email already in use");
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = this.repo.create({
+    const user = repo.create({
       email,
       passwordHash,
       name,
       createdAt: new Date(),
     });
-    await this.repo.save(user);
+    await repo.save(user);
     return user;
   }
 
   async validateUser(email: string, password: string) {
-    const user = await this.repo.findOneBy({ email });
+    const repo = this.getRepo();
+    const user = await repo.findOneBy({ email });
     if (!user) {
       throw new HttpError(401, "Invalid credentials");
     }
@@ -41,7 +45,8 @@ export class UserService {
   }
 
   async getUserById(id: string) {
-    const user = await this.repo.findOneBy({ id: new ObjectId(id) });
+    const repo = this.getRepo();
+    const user = await repo.findOneBy({ id: new ObjectId(id) });
     if (!user) {
       throw new HttpError(404, "User not found");
     }

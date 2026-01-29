@@ -4,7 +4,9 @@ import { HttpError } from "../../../common/errors/HttpError";
 import { Pet } from "../models/Pet";
 
 export class PetService {
-  private repo = getDataSource().getMongoRepository(Pet);
+  private getRepo() {
+    return getDataSource().getMongoRepository(Pet);
+  }
 
   async createPet(input: {
     name: string;
@@ -12,7 +14,8 @@ export class PetService {
     age?: number;
     ownerId: string;
   }) {
-    const pet = this.repo.create({
+    const repo = this.getRepo();
+    const pet = repo.create({
       name: input.name,
       type: input.type,
       age: input.age,
@@ -20,7 +23,7 @@ export class PetService {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    await this.repo.save(pet);
+    await repo.save(pet);
     return pet;
   }
 
@@ -31,7 +34,8 @@ export class PetService {
     type?: string;
     age?: number;
   }) {
-    const pet = await this.repo.findOneBy({ id: new ObjectId(input.id) });
+    const repo = this.getRepo();
+    const pet = await repo.findOneBy({ id: new ObjectId(input.id) });
     if (!pet) {
       throw new HttpError(404, "Pet not found");
     }
@@ -46,12 +50,13 @@ export class PetService {
       age: input.age ?? pet.age,
       updatedAt: new Date(),
     };
-    await this.repo.save(updated);
+    await repo.save(updated);
     return updated;
   }
 
   async getPetById(id: string) {
-    const pet = await this.repo.findOneBy({ id: new ObjectId(id) });
+    const repo = this.getRepo();
+    const pet = await repo.findOneBy({ id: new ObjectId(id) });
     if (!pet) {
       throw new HttpError(404, "Pet not found");
     }
