@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc -p tsconfig.json && echo \"Build output:\" && ls -la && echo \"dist tree:\" && ls -la dist && echo \"dist/src tree:\" && ls -la dist/src",
-    "start": "echo \"Runtime root:\" && ls -la / && echo \"Runtime app:\" && ls -la /app && echo \"Runtime pxxl:\" && ls -la /pxxl && echo \"Runtime pxxl dist:\" && ls -la /pxxl/dist && node /pxxl/dist/src/server.js",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/server.js",
     "test": "jest --runInBand",
     "test:watch": "jest --watch"
   },
