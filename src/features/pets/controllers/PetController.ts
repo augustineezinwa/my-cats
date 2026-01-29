@@ -62,4 +62,10 @@ export class PetController {
     const pets = await petService.getAllPets(req.user!.id);
     return res.json(pets);
   }
+
+  async delete(req: Request, res: Response) {
+    const petService = this.getService();
+    await petService.deletePet(String(req.params.id));
+    return res.json({ message: "Pet deleted successfully" });
+  }
 }

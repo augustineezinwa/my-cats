@@ -105,3 +105,23 @@ petRoutes.get("/:id", asyncHandler((req, res) => controller.getById(req, res)));
  *         description: Pets list
  */
 petRoutes.get("/", authenticate, asyncHandler((req, res) => controller.getAll(req, res)));
+
+/**
+ * @openapi
+ * /pets/{id}:
+ *   delete:
+ *     tags: [Pets]
+ *     summary: Delete a pet
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Pet deleted
+ */
+petRoutes.delete("/:id", authenticate, asyncHandler((req, res) => controller.delete(req, res)));

@@ -78,4 +78,16 @@ export class PetService {
       },
     })
   }
+
+  async deletePet(id: string) {
+    if (!ObjectId.isValid(id)) {
+      throw new HttpError(400, "Invalid pet id");
+    }
+    const repo = this.getRepo();
+    const pet = await repo.findOneById(new ObjectId(id));
+    if (!pet) {
+      throw new HttpError(404, "Pet not found");
+    }
+    await repo.remove(pet);
+  }
 }
