@@ -9,7 +9,6 @@ export class AuthController {
 
   async signup(req: Request, res: Response) {
     const payload = signupSchema.parse(req.body);
-    console.log("signup", req.body, 'I got there, do you see it');
     const userService = this.getService();
     const user = await userService.createUser(
       payload.email,
@@ -38,11 +37,8 @@ export class AuthController {
   }
 
   async me(req: Request, res: Response) {
-    if (!req.user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
     const userService = this.getService();
-    const user = await userService.getUserById(req.user.id);
+    const user = await userService.getUserById(req.user!.id);
     return res.json({
       user: { id: user.id.toString(), email: user.email, name: user.name },
     });

@@ -46,7 +46,7 @@ export class UserService {
 
   async getUserById(id: string) {
     const repo = this.getRepo();
-    const user = await repo.findOneBy({ id: new ObjectId(id) });
+    const user = await repo.findOneBy(new ObjectId(id));
     if (!user) {
       throw new HttpError(404, "User not found");
     }

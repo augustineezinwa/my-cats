@@ -8,7 +8,7 @@ const controller = new AuthController();
 
 /**
  * @openapi
- * /auth/signup:
+ * /api/v1/auth/signup:
  *   post:
  *     tags: [Auth]
  *     summary: Create a new user
@@ -37,7 +37,7 @@ authRoutes.post(
 
 /**
  * @openapi
- * /auth/login:
+ * /api/v1/auth/login:
  *   post:
  *     tags: [Auth]
  *     summary: Login with email and password
@@ -64,7 +64,7 @@ authRoutes.post(
 
 /**
  * @openapi
- * /auth/me:
+ * /api/v1/auth/me:
  *   get:
  *     tags: [Auth]
  *     summary: Get current user

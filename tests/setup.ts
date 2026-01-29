@@ -17,10 +17,10 @@ beforeAll(async () => {
   await dataSourceUtils.initDataSource();
 });
 
-beforeEach(async () => {
+afterEach(async () => {
   const dataSource = dataSourceUtils.getDataSource();
-  await dataSource.getMongoRepository(User).clear();
-  await dataSource.getMongoRepository(Pet).clear();
+  await dataSource.getMongoRepository<User>(User).deleteMany({});
+  await dataSource.getMongoRepository<Pet>(Pet).deleteMany({});
 });
 
 afterAll(async () => {

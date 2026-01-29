@@ -31,10 +31,11 @@ describe("Auth endpoints", () => {
     expect(response.body.token).toBeDefined();
   });
 
-  it("returns current user", async () => {
+  it("returns 404 when current user is not found", async () => {
     const signup = await request(app).post("/auth/signup").send({
       email: "me@example.com",
       password: "password123",
+      name: "Test User",
     });
     const token = signup.body.token;
 
@@ -43,6 +44,8 @@ describe("Auth endpoints", () => {
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
+    expect(response.body.user.id).toBeDefined();
     expect(response.body.user.email).toBe("me@example.com");
+    expect(response.body.user.name).toBe("Test User");
   });
 });

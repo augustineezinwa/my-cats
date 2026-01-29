@@ -9,7 +9,7 @@ const controller = (globalThis as any).petController || new PetController();
 
 /**
  * @openapi
- * /pets:
+ * /api/v1/pets:
  *   post:
  *     tags: [Pets]
  *     summary: Create a pet
@@ -41,7 +41,7 @@ petRoutes.post(
 
 /**
  * @openapi
- * /pets:
+ * /api/v1/pets:
  *   put:
  *     tags: [Pets]
  *     summary: Update a pet
@@ -75,7 +75,7 @@ petRoutes.put(
 
 /**
  * @openapi
- * /pets/{id}:
+ * /api/v1/pets/{id}:
  *   get:
  *     tags: [Pets]
  *     summary: Get pet by id
@@ -94,7 +94,7 @@ petRoutes.get("/:id", asyncHandler((req, res) => controller.getById(req, res)));
 
 /**
  * @openapi
- * /pets:
+ * /api/v1/pets:
  *   get:
  *     tags: [Pets]
  *     summary: Get all pets
@@ -108,7 +108,7 @@ petRoutes.get("/", authenticate, asyncHandler((req, res) => controller.getAll(re
 
 /**
  * @openapi
- * /pets/{id}:
+ * /api/v1/pets/{id}:
  *   delete:
  *     tags: [Pets]
  *     summary: Delete a pet

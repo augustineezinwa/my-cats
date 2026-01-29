@@ -21,7 +21,7 @@ describe("Pet endpoints", () => {
       .send({ name: "Luna", type: "cat", age: 2 });
 
     expect(createResponse.status).toBe(201);
-    const petId = createResponse.body.pet.id;
+    const petId = createResponse.body.id;
 
     const updateResponse = await request(app)
       .put("/pets")
@@ -29,10 +29,10 @@ describe("Pet endpoints", () => {
       .send({ id: petId, name: "Luna Updated" });
 
     expect(updateResponse.status).toBe(200);
-    expect(updateResponse.body.pet.name).toBe("Luna Updated");
+    expect(updateResponse.body.name).toBe("Luna Updated");
 
     const getResponse = await request(app).get(`/pets/${petId}`);
     expect(getResponse.status).toBe(200);
-    expect(getResponse.body.pet.name).toBe("Luna Updated");
+    expect(getResponse.body.name).toBe("Luna Updated");
   });
 });

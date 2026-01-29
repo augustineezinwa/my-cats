@@ -10,8 +10,8 @@ export const createApp = () => {
   app.use(express.json());
 
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  app.use("/auth", authRoutes);
-  app.use("/pets", petRoutes);
+  app.use("/api/v1/auth", authRoutes);
+  app.use("/api/v1/pets", petRoutes);
 
   app.use(errorHandler);
   return app;
