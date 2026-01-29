@@ -2,14 +2,17 @@ import type { Request, Response } from "express";
 import { createPetSchema, updatePetSchema } from "../validations/petSchemas";
 import { PetService } from "../services/PetService";
 
-const petService = new PetService();
-
 export class PetController {
+  private getService() {
+    return new PetService();
+  }
+
   async create(req: Request, res: Response) {
     const payload = createPetSchema.parse(req.body);
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+    const petService = this.getService();
     const pet = await petService.createPet({
       ...payload,
       ownerId: req.user.id,
@@ -30,6 +33,7 @@ export class PetController {
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+    const petService = this.getService();
     const pet = await petService.updatePet({
       ...payload,
       ownerId: req.user.id,
@@ -46,6 +50,7 @@ export class PetController {
   }
 
   async getById(req: Request, res: Response) {
+    const petService = this.getService();
     const pet = await petService.getPetById(req.params.id);
     return res.json({
       pet: {

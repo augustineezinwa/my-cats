@@ -4,7 +4,8 @@ import { authenticate } from "../../../common/middleware/auth";
 import { asyncHandler } from "../../../common/utils/asyncHandler";
 
 export const petRoutes = Router();
-const controller = new PetController();
+const controller = (globalThis as any).petController || new PetController();
+(globalThis as any).petController = controller;
 
 /**
  * @openapi

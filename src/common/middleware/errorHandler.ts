@@ -8,10 +8,15 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
+  if (err instanceof SyntaxError && "body" in err) {
+    return res.status(400).json({ message: "Invalid JSON body" });
+  }
+
   if (err instanceof ZodError) {
+    const issues = err.issues ?? [];
     return res.status(400).json({
       message: "Validation failed",
-      details: err.errors.map((issue) => ({
+      details: issues.map((issue) => ({
         path: issue.path.join("."),
         message: issue.message,
       })),
@@ -22,5 +27,6 @@ export const errorHandler = (
     return res.status(err.statusCode).json({ message: err.message });
   }
 
+  console.error("Unhandled error:", err);
   return res.status(500).json({ message: "Internal server error" });
 };

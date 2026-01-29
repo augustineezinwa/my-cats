@@ -34,6 +34,9 @@ export class PetService {
     type?: string;
     age?: number;
   }) {
+    if (!ObjectId.isValid(input.id)) {
+      throw new HttpError(400, "Invalid pet id");
+    }
     const repo = this.getRepo();
     const pet = await repo.findOneBy({ id: new ObjectId(input.id) });
     if (!pet) {
@@ -55,6 +58,9 @@ export class PetService {
   }
 
   async getPetById(id: string) {
+    if (!ObjectId.isValid(id)) {
+      throw new HttpError(400, "Invalid pet id");
+    }
     const repo = this.getRepo();
     const pet = await repo.findOneBy({ id: new ObjectId(id) });
     if (!pet) {

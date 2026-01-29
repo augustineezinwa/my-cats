@@ -30,7 +30,10 @@ const controller = new AuthController();
  *       201:
  *         description: User created
  */
-authRoutes.post("/signup", asyncHandler((req, res) => controller.signup(req, res)));
+authRoutes.post(
+  "/signup",
+  asyncHandler((req, res) => controller.signup(req, res))
+);
 
 /**
  * @openapi
@@ -54,7 +57,10 @@ authRoutes.post("/signup", asyncHandler((req, res) => controller.signup(req, res
  *       200:
  *         description: Login successful
  */
-authRoutes.post("/login", asyncHandler((req, res) => controller.login(req, res)));
+authRoutes.post(
+  "/login",
+  asyncHandler((req, res) => controller.login(req, res))
+);
 
 /**
  * @openapi
