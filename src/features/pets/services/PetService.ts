@@ -1,0 +1,60 @@
+import { ObjectId } from "mongodb";
+import { getDataSource } from "../../../config/data-source";
+import { HttpError } from "../../../common/errors/HttpError";
+import { Pet } from "../models/Pet";
+
+export class PetService {
+  private repo = getDataSource().getMongoRepository(Pet);
+
+  async createPet(input: {
+    name: string;
+    type: string;
+    age?: number;
+    ownerId: string;
+  }) {
+    const pet = this.repo.create({
+      name: input.name,
+      type: input.type,
+      age: input.age,
+      ownerId: new ObjectId(input.ownerId),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    await this.repo.save(pet);
+    return pet;
+  }
+
+  async updatePet(input: {
+    id: string;
+    ownerId: string;
+    name?: string;
+    type?: string;
+    age?: number;
+  }) {
+    const pet = await this.repo.findOneBy({ id: new ObjectId(input.id) });
+    if (!pet) {
+      throw new HttpError(404, "Pet not found");
+    }
+    if (pet.ownerId.toString() !== input.ownerId) {
+      throw new HttpError(403, "Forbidden");
+    }
+
+    const updated = {
+      ...pet,
+      name: input.name ?? pet.name,
+      type: input.type ?? pet.type,
+      age: input.age ?? pet.age,
+      updatedAt: new Date(),
+    };
+    await this.repo.save(updated);
+    return updated;
+  }
+
+  async getPetById(id: string) {
+    const pet = await this.repo.findOneBy({ id: new ObjectId(id) });
+    if (!pet) {
+      throw new HttpError(404, "Pet not found");
+    }
+    return pet;
+  }
+}
