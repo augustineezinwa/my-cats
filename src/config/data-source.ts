@@ -31,7 +31,7 @@ export const initDataSource = async () => {
       type: "mongodb",
       url,
       database: env.MONGO_DB_NAME,
-      synchronize: true,
+      synchronize: env.NODE_ENV !== "production",
       entities: [User, Pet],
     });
   }
