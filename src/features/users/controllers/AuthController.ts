@@ -4,7 +4,9 @@ import { loginSchema, signupSchema } from "../validations/authSchemas";
 
 export class AuthController {
   private getService() {
-    return new UserService();
+    const service = (globalThis as any & { userService: UserService }).userService || new UserService();
+    (globalThis as any & { userService: UserService }).userService = service;
+    return service;
   }
 
   async signup(req: Request, res: Response) {

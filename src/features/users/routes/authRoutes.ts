@@ -4,7 +4,8 @@ import { authenticate } from "../../../common/middleware/auth";
 import { asyncHandler } from "../../../common/utils/asyncHandler";
 
 export const authRoutes = Router();
-const controller = new AuthController();
+const controller = (globalThis as any & { authController: AuthController }).authController || new AuthController();
+(globalThis as any & { authController: AuthController }).authController = controller;
 
 /**
  * @openapi

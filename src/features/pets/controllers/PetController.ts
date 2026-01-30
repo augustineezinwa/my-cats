@@ -4,7 +4,9 @@ import { PetService } from "../services/PetService";
 
 export class PetController {
   private getService() {
-    return new PetService();
+    const service = (globalThis as any & { petService: PetService }).petService || new PetService();
+    (globalThis as any & { petService: PetService }).petService = service;
+    return service;
   }
 
   async create(req: Request, res: Response) {
