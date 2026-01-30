@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { Column, Entity, ObjectIdColumn } from "typeorm";
+import { Column, Entity, Index, ObjectIdColumn } from "typeorm";
 
 @Entity("users")
 export class User {
@@ -7,6 +7,7 @@ export class User {
   id!: ObjectId;
 
   @Column()
+  @Index({ unique: true })
   email!: string;
 
   @Column()

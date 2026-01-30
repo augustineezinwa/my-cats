@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { Column, Entity, ObjectIdColumn } from "typeorm";
+import { Column, Entity, Index, ObjectIdColumn } from "typeorm";
 
 @Entity("pets")
 export class Pet {
@@ -7,6 +7,7 @@ export class Pet {
   id!: ObjectId;
 
   @Column()
+  @Index({ unique: true })
   name!: string;
 
   @Column()

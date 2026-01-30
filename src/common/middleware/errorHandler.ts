@@ -23,6 +23,13 @@ export const errorHandler = (
     });
   }
 
+  if (typeof err === "object" && err !== null) {
+    const code = (err as { code?: number }).code;
+    if (code === 11000) {
+      return res.status(409).json({ message: "resource already exists" });
+    }
+  }
+
   if (err instanceof HttpError) {
     return res.status(err.statusCode).json({ message: err.message });
   }
