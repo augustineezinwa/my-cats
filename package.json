@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "ls -la && node ./src/server.js",
+    "start": "npm run build && ls -la && node ./src/server.js",
     "test": "jest --runInBand",
     "test:watch": "jest --watch"
   },
