@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { MongoMemoryServer } from "mongodb-memory-server";
+import type { MongoMemoryServer } from "mongodb-memory-server";
 import { env } from "./env";
 import { User } from "../features/users/models/User";
 import { Pet } from "../features/pets/models/Pet";
@@ -18,6 +18,7 @@ const resolveMongoUri = async () => {
   }
 
   if (!memoryServer) {
+    const { MongoMemoryServer } = await import("mongodb-memory-server");
     memoryServer = await MongoMemoryServer.create();
   }
   return memoryServer.getUri();
