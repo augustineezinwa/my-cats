@@ -35,7 +35,7 @@ Required variables:
 
 Notes:
 
-- For Atlas, use `mongodb+srv://...` or include `tls=true` in the URI.
+- In production, use the MONGO_DB_URL
 - Dev/test can run with `USE_IN_MEMORY_DB=true` to avoid a local MongoDB.
 
 ## Development
